@@ -11,8 +11,11 @@ from collections import OrderedDict
 class Spring:
 
     def __init__(self):
+        ''' Make a new Spring object.
+            >>> Spring()
+            '''
         self.volume = self.file_get_contents('_volume')
-        self.base_year = int(self.file_get_contents('_year') + int(self.volume)
+        self.base_year = int(self.file_get_contents('_year')) + int(self.volume)
         lines = {
             'YYYY-03-22': '''Spring Is Here
   Taro Gomi
@@ -35,17 +38,22 @@ class Spring:
             'YYY1-03-21': 'Spring is here.'
         }
         self.lines = OrderedDict()
-        next_year = self.base_year + 1
+        next_year = str(self.base_year + 1)
         for key in lines:
-            new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', str(next_year))
+            new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
             self.lines[new_key] = lines[key]
 
     def setup(self):
-        ''' Initial file creation.
+        ''' Initial file creation. Makes sure we don't overwrite existing work.
             '''
-        self.file_put_contents('_volume', '0')
-        self.file_put_contents('_year', str(date.today().year))
-        return True
+        try:
+            self.file_get_contents('_volume')
+            self.file_get_contents('_year')
+        except:
+            self.file_put_contents('_volume', '0')
+            self.file_put_contents('_year', str(date.today().year))
+            return True
+        return False
 
     def file_get_contents(self, fn):
         ''' As described.
@@ -116,7 +124,7 @@ def build_parser(args):
                                      epilog='Example use: python here.py')
     parser.add_argument("-v", "--verbose", dest="verbose", default=False, action="store_true")
     parser.add_argument("-t", "--test", dest="test", default=False, action="store_true")
-    parser.add_argument("--initial", dest="test", default=False, action="store_true")
+    parser.add_argument("--initial", dest="initial", default=False, action="store_true")
     args = parser.parse_args(args)
     return args
 
