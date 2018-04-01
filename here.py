@@ -12,7 +12,7 @@ class Spring:
 
     def __init__(self):
         self.volume = self.file_get_contents('_volume')
-        self.base_year = 2018 + int(self.volume)
+        self.base_year = int(self.file_get_contents('_year') + int(self.volume)
         lines = {
             'YYYY-03-22': '''Spring Is Here
   Taro Gomi
@@ -39,6 +39,13 @@ class Spring:
         for key in lines:
             new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', str(next_year))
             self.lines[new_key] = lines[key]
+
+    def setup(self):
+        ''' Initial file creation.
+            '''
+        self.file_put_contents('_volume', '0')
+        self.file_put_contents('_year', str(date.today().year))
+        return True
 
     def file_get_contents(self, fn):
         ''' As described.
@@ -86,6 +93,10 @@ def main(args):
     auth.set_access_token(access['token'], access['secret'])
     api = tweepy.API(auth)
     s = Spring()
+
+    if args.initial == True:
+        return s.setup()
+
     #s.file_put_contents('_volume', '0')
     d_str = date.today().strftime('%Y-%m-%d')
     tweet = s.check_for_tweet(d_str)
@@ -105,12 +116,13 @@ def build_parser(args):
                                      epilog='Example use: python here.py')
     parser.add_argument("-v", "--verbose", dest="verbose", default=False, action="store_true")
     parser.add_argument("-t", "--test", dest="test", default=False, action="store_true")
+    parser.add_argument("--initial", dest="test", default=False, action="store_true")
     args = parser.parse_args(args)
     return args
 
 if __name__ == '__main__':
     args = build_parser(sys.argv[1:])
 
-    if args.test== True:
+    if args.test == True:
         doctest.testmod(verbose=args.verbose)
     main(args)
