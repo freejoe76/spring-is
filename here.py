@@ -12,7 +12,7 @@ class Spring:
 
     def __init__(self):
         ''' Make a new Spring object.
-            >>> Spring()
+            >>> s = Spring()
             '''
         self.volume = self.file_get_contents('_volume')
         self.base_year = int(self.file_get_contents('_year')) + int(self.volume)
@@ -45,6 +45,10 @@ class Spring:
 
     def setup(self):
         ''' Initial file creation. Makes sure we don't overwrite existing work.
+            >>> s = Spring()
+            >>> s.setup()
+            ... # False, probably, if there are already these files.
+            False
             '''
         try:
             self.file_get_contents('_volume')
@@ -55,26 +59,34 @@ class Spring:
             return True
         return False
 
-    def file_get_contents(self, fn):
-        ''' As described.
-            '''
-        with open(fn) as fh:
-            data = fh.read()
-        return data
-
     def file_put_contents(self, fn, contents):
         ''' As described.
+            >>> s = Spring()
+            >>> s.file_put_contents('_test', 'test')
+            True
             '''
         with open(fn, 'w') as fh:
             data = fh.write(contents)
         return True
 
+    def file_get_contents(self, fn):
+        ''' As described.
+            >>> s = Spring()
+            >>> s.file_get_contents('_test')
+            'test'
+            '''
+        with open(fn) as fh:
+            data = fh.read()
+        return data
+
     def the_next_year(self, tweet):
         ''' Update the volume and the volume tweet.
+            >>> s = Spring()
+            >>> s.the_next_year('test')
             '''
         self.volume += 1
         self.file_put_contents('_volume', str(self.volume))
-        return tweet.replace('volume X', str(self.volume))
+        return tweet.replace('volume X', 'volume %s' % str(self.volume))
 
     def check_for_tweet(self, date_str):
         ''' Check and see if we're tweeting today.
@@ -116,7 +128,7 @@ def main(args):
 def build_parser(args):
     """ This method allows us to test the args.
         >>> args = build_parser(['--verbose'])
-        >>> print args.verbose
+        >>> print(args.verbose)
         True
         """
     parser = argparse.ArgumentParser(usage='$ python here.py',
