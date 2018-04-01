@@ -9,6 +9,9 @@ import tweepy
 from collections import OrderedDict
 
 class Spring:
+    ''' A class for managing a set of tweets that are supposed to be tweeted on
+        specific days, year after year.
+        '''
 
     def __init__(self):
         ''' Make a new Spring object.
@@ -82,7 +85,7 @@ class Spring:
     def the_next_year(self, tweet):
         ''' Update the volume and the volume tweet.
             >>> s = Spring()
-            >>> s.the_next_year('test')
+            ... # we're not testing this because it writes actual files
             '''
         self.volume += 1
         self.file_put_contents('_volume', str(self.volume))
@@ -90,6 +93,10 @@ class Spring:
 
     def check_for_tweet(self, date_str):
         ''' Check and see if we're tweeting today.
+            >>> s = Spring()
+            >>> d_str = '2010-07-12'
+            >>> s.check_for_tweet(d_str)
+            False
             '''
         for key in self.lines:
             if date_str == key:
@@ -98,9 +105,7 @@ class Spring:
                 return self.lines[key]
         return False
 
-def main(args):
-    """ 
-        """
+def setup_auth():
     access = {
         'token': os.getenv('ACCESS_TOKEN'),
         'secret': os.getenv('ACCESS_SECRET')
@@ -111,13 +116,16 @@ def main(args):
     }
     auth = tweepy.OAuthHandler(consumer['key'], consumer['secret'])
     auth.set_access_token(access['token'], access['secret'])
+    return auth
+
+def main(args):
+    auth = setup_auth()
     api = tweepy.API(auth)
     s = Spring()
 
     if args.initial == True:
         return s.setup()
 
-    #s.file_put_contents('_volume', '0')
     d_str = date.today().strftime('%Y-%m-%d')
     tweet = s.check_for_tweet(d_str)
     if tweet:
