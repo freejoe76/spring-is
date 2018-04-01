@@ -17,7 +17,11 @@ class Spring:
         ''' Make a new Spring object.
             >>> s = Spring()
             '''
-        self.volume = self.file_get_contents('_volume')
+        try:
+            self.volume = self.file_get_contents('_volume')
+        except:
+            self.setup()
+            return None
         self.base_year = int(self.file_get_contents('_year')) + int(self.volume)
         lines = {
             'YYYY-03-22': '''Spring Is Here
