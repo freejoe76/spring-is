@@ -91,7 +91,7 @@ class Spring:
             >>> s = Spring()
             ... # we're not testing this because it writes actual files
             '''
-        self.volume += 1
+        self.volume = str(int(self.volume) + 1)
         self.file_put_contents('_volume', str(self.volume))
         self.file_put_contents('_year', str(date.today().year))
         return tweet.replace('volume X', 'volume %s' % str(self.volume))
