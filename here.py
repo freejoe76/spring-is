@@ -28,8 +28,8 @@ class Spring:
   Taro Gomi
   volume X''',
             'YYYY-03-25': 'Spring is here.',
-            'YYYY-04-03': 'The snow melts.',
-            'YYYY-04-09': 'The earth is fresh.',
+            'YYYY-04-08': 'The snow melts.',
+            'YYYY-04-17': 'The earth is fresh.',
             'YYYY-05-01': 'The grass sprouts.',
             'YYYY-05-21': 'The flowers bloom.',
             'YYYY-06-04': 'The grass grows.',
