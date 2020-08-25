@@ -60,9 +60,11 @@ class Spring:
         try:
             self.file_get_contents('_volume')
             self.file_get_contents('_year')
+            self.file_get_contents('_count')
         except:
             self.file_put_contents('_volume', '0')
             self.file_put_contents('_year', str(date.today().year))
+            self.file_get_contents('_count', '0')
             return True
         return False
 
@@ -94,6 +96,7 @@ class Spring:
         self.volume = str(int(self.volume) + 1)
         self.file_put_contents('_volume', str(self.volume))
         self.file_put_contents('_year', str(date.today().year))
+        self.file_put_contents('_count', '0')
         return tweet.replace('volume X', 'volume %s' % str(self.volume))
 
     def check_for_tweet(self, date_str):
