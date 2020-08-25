@@ -22,7 +22,7 @@ class Spring:
         except:
             self.setup()
             return None
-        self.base_year = int(self.file_get_contents('_year')) + int(self.volume)
+        self.base_year = int(self.file_get_contents('_year'))
         lines = {
             'YYYY-03-22': '''Spring Is Here
   Taro Gomi
