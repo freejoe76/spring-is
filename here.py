@@ -118,6 +118,13 @@ class Spring:
             data = fh.read()
         return data
 
+    def update_count(self):
+        ''' Add one to the count value and save it in its file.
+            '''
+        self.count += 1
+        self.file_put_contents('_count', str(self.count))
+        return True
+
     def the_next_year(self, tweet):
         ''' Update the volume and the volume tweet.
             >>> s = Spring()
@@ -190,6 +197,7 @@ def main(args):
     if tweet:
         print("ABOUT TO WRITE TWEET %s" % tweet)
         api.update_status(tweet)
+        s.update_count()
         print("WROTE TWEET %s" % tweet)
   
 
