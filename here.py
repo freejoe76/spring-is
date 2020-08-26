@@ -188,6 +188,7 @@ def main(args):
     d_str = date.today().strftime('%Y-%m-%d')
     tweet = s.check_for_tweet(d_str)
     if tweet:
+        print("ABOUT TO WRITE TWEET %s" % tweet)
         api.update_status(tweet)
         print("WROTE TWEET %s" % tweet)
   
