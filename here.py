@@ -48,7 +48,7 @@ class Spring:
         }
         # We also have a list of the lines, which allows us to have a range of dates
         # that the lines get read on.
-        linesL = [
+        lines_list = [
                 { 'date': ['YYYY-03-22'], 'line': '''Spring Is Here
   Taro Gomi
   volume X'''},
@@ -74,11 +74,11 @@ class Spring:
         for i, key in enumerate(lines):
             new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
             self.lines[new_key] = lines[key]
-            for ii, d in enumerate(linesL[i]['date']):
-                linesL[i]['date'][ii] = linesL[i]['date'][ii].replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
+            for ii, d in enumerate(lines_list[i]['date']):
+                lines_list[i]['date'][ii] = lines_list[i]['date'][ii].replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
 
             if i == ( self.count + 1 ):
-                self.next_line = linesL[i]
+                self.next_line = lines_list[i]
 
     def setup(self):
         ''' Initial file creation. Makes sure we don't overwrite existing work.
