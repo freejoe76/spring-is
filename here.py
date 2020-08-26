@@ -7,6 +7,7 @@ import doctest
 import argparse
 import tweepy
 from collections import OrderedDict
+import random
 
 class Spring:
     ''' A class for managing a set of tweets that are supposed to be tweeted on
@@ -23,6 +24,7 @@ class Spring:
             self.setup()
             return None
         self.base_year = int(self.file_get_contents('_year'))
+        self.count = int(self.file_get_contents('_count'))
         lines = {
             'YYYY-03-22': '''Spring Is Here
   Taro Gomi
@@ -44,11 +46,39 @@ class Spring:
             'YYY1-03-14': 'The calf has grown.',
             'YYY1-03-21': 'Spring is here.'
         }
+        # We also have a list of the lines, which allows us to have a range of dates
+        # that the lines get read on.
+        linesL = [
+                { 'date': ['YYYY-03-22'], 'line': '''Spring Is Here
+  Taro Gomi
+  volume X'''},
+            { 'date': ['YYYY-03-25', 'YYYY-03-26', 'YYYY-03-27'], 'line': 'Spring is here.'},
+            { 'date': ['YYYY-04-08', 'YYYY-04-09'], 'line': 'The snow melts.'},
+            { 'date': ['YYYY-04-17', 'YYYY-04-19', 'YYYY-04-21'], 'line': 'The earth is fresh.'},
+            { 'date': ['YYYY-05-01', 'YYYY-05-02'], 'line': 'The grass sprouts.'},
+            { 'date': ['YYYY-05-21'], 'line': 'The flowers bloom.'},
+            { 'date': ['YYYY-06-04'], 'line': 'The grass grows.'},
+            { 'date': ['YYYY-07-12'], 'line': 'The winds blow.'},
+            { 'date': ['YYYY-08-19', 'YYYY-08-25', 'YYYY-08-26'], 'line': 'The storms rage.'},
+            { 'date': ['YYYY-09-19', 'YYYY-09-20'], 'line': 'The quiet harvest arrives.'},
+            { 'date': ['YYYY-12-07'], 'line': 'The snow falls.'},
+            { 'date': ['YYYY-12-30'], 'line': 'The children play.'},
+            { 'date': ['YYY1-01-01'], 'line': 'The world is hushed.'},
+            { 'date': ['YYY1-01-09'], 'line': 'The world is white.'},
+            { 'date': ['YYY1-03-02'], 'line': 'The snow melts.'},
+            { 'date': ['YYY1-03-14'], 'line': 'The calf has grown.'},
+            { 'date': ['YYY1-03-21'], 'line': 'Spring is here.'}
+            ]
         self.lines = OrderedDict()
         next_year = str(self.base_year + 1)
-        for key in lines:
+        for i, key in enumerate(lines):
             new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
             self.lines[new_key] = lines[key]
+            for ii, d in enumerate(linesL[i]['date']):
+                linesL[i]['date'][ii] = linesL[i]['date'][ii].replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
+
+            if i == ( self.count + 1 ):
+                self.next_line = linesL[i]
 
     def setup(self):
         ''' Initial file creation. Makes sure we don't overwrite existing work.
@@ -106,11 +136,32 @@ class Spring:
             >>> s.check_for_tweet(d_str)
             False
             '''
-        for key in self.lines:
-            if date_str == key:
-                if 'Taro Gomi' in self.lines[key]:
-                    return self.the_next_year(self.lines[key])
-                return self.lines[key]
+        for i, key in enumerate(self.lines):
+            # This logic lets us mix up the dates a little bit.
+            # One of the line dictionaries looks like this, for reference
+            # { 'date': ['YYYY-04-17', 'YYYY-04-19', 'YYYY-04-21'], 'line': 'The earth is fresh.'},
+            l = len(self.next_line['date'])
+            for ii, d in enumerate(self.next_line['date']):
+                if self.next_line['date'][ii] == date_str:
+
+                    # If we're on the new year.
+                    if 'Taro Gomi' in self.next_line['line']:
+                        return self.the_next_year(self.lines[key])
+
+                    # If we've passed on the previous items and we're on
+                    # the last one, we've gotta tweet it.
+                    if l == (ii + 1):
+                        return self.next_line['line']
+                    
+                    # If it's not the last item in the list then we
+                    # roll the dice to see if we should send tweet.
+                    if random.randint(0, l) == 0:
+                        return self.next_line['line']
+
+            #if date_str == key:
+            #    if 'Taro Gomi' in self.lines[key]:
+            #        return self.the_next_year(self.lines[key])
+            #    return self.lines[key]
         return False
 
 def setup_auth():
