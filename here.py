@@ -59,7 +59,7 @@ class Spring:
             { 'date': ['YYYY-05-21'], 'line': 'The flowers bloom.'},
             { 'date': ['YYYY-06-04'], 'line': 'The grass grows.'},
             { 'date': ['YYYY-07-12'], 'line': 'The winds blow.'},
-            { 'date': ['YYYY-08-19', 'YYYY-08-25', 'YYYY-08-26'], 'line': 'The storms rage.'},
+            { 'date': ['YYYY-08-19', 'YYYY-08-25', 'YYYY-08-26', 'YYYY-08-27'], 'line': 'The storms rage.'},
             { 'date': ['YYYY-09-19', 'YYYY-09-20'], 'line': 'The quiet harvest arrives.'},
             { 'date': ['YYYY-12-07'], 'line': 'The snow falls.'},
             { 'date': ['YYYY-12-30'], 'line': 'The children play.'},
