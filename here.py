@@ -8,6 +8,7 @@ import argparse
 import tweepy
 from collections import OrderedDict
 import random
+import json
 
 class Spring:
     ''' A class for managing a set of tweets that are supposed to be tweeted on
@@ -172,6 +173,13 @@ class Spring:
         return False
 
 def setup_auth():
+    ''' Get the env vars and create and return an object
+        that can be handed off to the tweepy API to 
+        gain access to the twitter user's account.
+        >>> auth = setup_auth()
+        >>> print(auth.username)
+        None
+        '''
     access = {
         'token': os.getenv('ACCESS_TOKEN'),
         'secret': os.getenv('ACCESS_SECRET')
