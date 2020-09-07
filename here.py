@@ -15,7 +15,7 @@ class Spring:
         specific days, year after year.
         '''
 
-    def __init__(self):
+    def __init__(self, story):
         ''' Make a new Spring object.
             >>> s = Spring()
             '''
@@ -26,6 +26,9 @@ class Spring:
             return None
         self.base_year = int(self.file_get_contents('_year'))
         self.count = int(self.file_get_contents('_count'))
+        if story:
+            lines_list = 
+        """
         lines = {
             'YYYY-03-22': '''Spring Is Here
   Taro Gomi
@@ -47,6 +50,7 @@ class Spring:
             'YYY1-03-14': 'The calf has grown.',
             'YYY1-03-21': 'Spring is here.'
         }
+        """
         # We also have a list of the lines, which allows us to have a range of dates
         # that the lines get read on.
         lines_list = [
@@ -70,11 +74,9 @@ class Spring:
             { 'date': ['YYY1-03-14'], 'line': 'The calf has grown.'},
             { 'date': ['YYY1-03-21'], 'line': 'Spring is here.'}
             ]
-        self.lines = OrderedDict()
         next_year = str(self.base_year + 1)
-        for i, key in enumerate(lines):
-            new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
-            self.lines[new_key] = lines[key]
+        for i, key in enumerate(lines_list):
+            #new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
             for ii, d in enumerate(lines_list[i]['date']):
                 lines_list[i]['date'][ii] = lines_list[i]['date'][ii].replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
 
@@ -96,6 +98,7 @@ class Spring:
             self.file_put_contents('_volume', '0')
             self.file_put_contents('_year', str(date.today().year))
             self.file_get_contents('_count', '0')
+            self.file_get_contents('_test', 'test')
             return True
         return False
 
@@ -144,7 +147,7 @@ class Spring:
             >>> s.check_for_tweet(d_str)
             False
             '''
-        for i, key in enumerate(self.lines):
+        for i, key in enumerate(self.lines_list):
             # This logic lets us mix up the dates a little bit.
             # One of the line dictionaries looks like this, for reference
             # { 'date': ['YYYY-04-17', 'YYYY-04-19', 'YYYY-04-21'], 'line': 'The earth is fresh.'},
@@ -195,7 +198,7 @@ def setup_auth():
 def main(args):
     auth = setup_auth()
     api = tweepy.API(auth)
-    s = Spring()
+    s = Spring(args.story)
 
     if args.initial == True:
         return s.setup()
@@ -218,9 +221,10 @@ def build_parser(args):
     parser = argparse.ArgumentParser(usage='$ python here.py',
                                      description='Sees if we should tweet, and if we should, what.',
                                      epilog='Example use: python here.py')
+    parser.add_argument("--initial", dest="initial", default=False, action="store_true")
+    parser.add_argument("-s", "--story", dest="story", default=None)
     parser.add_argument("-v", "--verbose", dest="verbose", default=False, action="store_true")
     parser.add_argument("-t", "--test", dest="test", default=False, action="store_true")
-    parser.add_argument("--initial", dest="initial", default=False, action="store_true")
     args = parser.parse_args(args)
     return args
 
