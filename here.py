@@ -17,7 +17,7 @@ class Spring:
 
     def __init__(self, story):
         ''' Make a new Spring object.
-            >>> s = Spring()
+            >>> s = Spring('test')
             '''
         try:
             self.volume = self.file_get_contents('_volume')
@@ -27,7 +27,7 @@ class Spring:
         self.base_year = int(self.file_get_contents('_year'))
         self.count = int(self.file_get_contents('_count'))
         if story:
-            lines_list = 
+            lines_list = None
         """
         lines = {
             'YYYY-03-22': '''Spring Is Here
@@ -53,7 +53,7 @@ class Spring:
         """
         # We also have a list of the lines, which allows us to have a range of dates
         # that the lines get read on.
-        lines_list = [
+        self.lines_list = [
                 { 'date': ['YYYY-03-22'], 'line': '''Spring Is Here
   Taro Gomi
   volume X'''},
@@ -75,17 +75,17 @@ class Spring:
             { 'date': ['YYY1-03-21'], 'line': 'Spring is here.'}
             ]
         next_year = str(self.base_year + 1)
-        for i, key in enumerate(lines_list):
+        for i, item in enumerate(self.lines_list):
             #new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
-            for ii, d in enumerate(lines_list[i]['date']):
-                lines_list[i]['date'][ii] = lines_list[i]['date'][ii].replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
+            for ii, d in enumerate(self.lines_list[i]['date']):
+                self.lines_list[i]['date'][ii] = self.lines_list[i]['date'][ii].replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
 
             if i == ( self.count + 1 ):
-                self.next_line = lines_list[i]
+                self.next_line = self.lines_list[i]
 
     def setup(self):
         ''' Initial file creation. Makes sure we don't overwrite existing work.
-            >>> s = Spring()
+            >>> s = Spring('test')
             >>> s.setup()
             ... # False, probably, if there are already these files.
             False
@@ -104,7 +104,7 @@ class Spring:
 
     def file_put_contents(self, fn, contents):
         ''' As described.
-            >>> s = Spring()
+            >>> s = Spring('test')
             >>> s.file_put_contents('_test', 'test')
             True
             '''
@@ -114,7 +114,7 @@ class Spring:
 
     def file_get_contents(self, fn):
         ''' As described.
-            >>> s = Spring()
+            >>> s = Spring('test')
             >>> s.file_get_contents('_test')
             'test'
             '''
@@ -131,7 +131,7 @@ class Spring:
 
     def the_next_year(self, tweet):
         ''' Update the volume and the volume tweet.
-            >>> s = Spring()
+            >>> s = Spring('test')
             ... # we're not testing this because it writes actual files
             '''
         self.volume = str(int(self.volume) + 1)
@@ -142,12 +142,12 @@ class Spring:
 
     def check_for_tweet(self, date_str):
         ''' Check and see if we're tweeting today.
-            >>> s = Spring()
+            >>> s = Spring('test')
             >>> d_str = '2010-07-12'
             >>> s.check_for_tweet(d_str)
             False
             '''
-        for i, key in enumerate(self.lines_list):
+        for i, item in enumerate(self.lines_list):
             # This logic lets us mix up the dates a little bit.
             # One of the line dictionaries looks like this, for reference
             # { 'date': ['YYYY-04-17', 'YYYY-04-19', 'YYYY-04-21'], 'line': 'The earth is fresh.'},
@@ -157,7 +157,7 @@ class Spring:
 
                     # If we're on the new year.
                     if 'Taro Gomi' in self.next_line['line']:
-                        return self.the_next_year(self.lines[key])
+                        return self.the_next_year(self.lines_list[i]['line'])
 
                     # If we've passed on the previous items and we're on
                     # the last one, we've gotta tweet it.
