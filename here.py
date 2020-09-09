@@ -30,32 +30,9 @@ class Spring:
         self.count = int(self.file_get_contents('_count'))
         with open('story/%s.json' % story) as fh:
             self.lines_list = json.load(fh)
-        """
-        self.lines_list = [
-                { 'date': ['YYYY-03-22'], 'line': '''Spring Is Here
-  Taro Gomi
-  volume X'''},
-            { 'date': ['YYYY-03-25', 'YYYY-03-26', 'YYYY-03-27'], 'line': 'Spring is here.'},
-            { 'date': ['YYYY-04-08', 'YYYY-04-09'], 'line': 'The snow melts.'},
-            { 'date': ['YYYY-04-17', 'YYYY-04-19', 'YYYY-04-21'], 'line': 'The earth is fresh.'},
-            { 'date': ['YYYY-05-01', 'YYYY-05-02'], 'line': 'The grass sprouts.'},
-            { 'date': ['YYYY-05-21'], 'line': 'The flowers bloom.'},
-            { 'date': ['YYYY-06-04'], 'line': 'The grass grows.'},
-            { 'date': ['YYYY-07-12'], 'line': 'The winds blow.'},
-            { 'date': ['YYYY-08-19', 'YYYY-08-25', 'YYYY-08-26', 'YYYY-08-27'], 'line': 'The storms rage.'},
-            { 'date': ['YYYY-09-19', 'YYYY-09-20'], 'line': 'The quiet harvest arrives.'},
-            { 'date': ['YYYY-12-07'], 'line': 'The snow falls.'},
-            { 'date': ['YYYY-12-30'], 'line': 'The children play.'},
-            { 'date': ['YYY1-01-01'], 'line': 'The world is hushed.'},
-            { 'date': ['YYY1-01-09'], 'line': 'The world is white.'},
-            { 'date': ['YYY1-03-02'], 'line': 'The snow melts.'},
-            { 'date': ['YYY1-03-14'], 'line': 'The calf has grown.'},
-            { 'date': ['YYY1-03-21'], 'line': 'Spring is here.'}
-            ]
-        """
+
         next_year = str(self.base_year + 1)
         for i, item in enumerate(self.lines_list):
-            #new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
             for ii, d in enumerate(self.lines_list[i]['date']):
                 self.lines_list[i]['date'][ii] = self.lines_list[i]['date'][ii].replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
 
