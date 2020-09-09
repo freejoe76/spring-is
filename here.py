@@ -18,6 +18,8 @@ class Spring:
     def __init__(self, story):
         ''' Make a new Spring object.
             >>> s = Spring('test')
+            >>> print(s.lines_list[0]['date'])
+            ['2020-03-22']
             '''
         try:
             self.volume = self.file_get_contents('_volume')
@@ -26,33 +28,9 @@ class Spring:
             return None
         self.base_year = int(self.file_get_contents('_year'))
         self.count = int(self.file_get_contents('_count'))
-        if story:
-            lines_list = None
+        with open('story/%s.json' % story) as fh:
+            self.lines_list = json.load(fh)
         """
-        lines = {
-            'YYYY-03-22': '''Spring Is Here
-  Taro Gomi
-  volume X''',
-            'YYYY-03-25': 'Spring is here.',
-            'YYYY-04-08': 'The snow melts.',
-            'YYYY-04-17': 'The earth is fresh.',
-            'YYYY-05-01': 'The grass sprouts.',
-            'YYYY-05-21': 'The flowers bloom.',
-            'YYYY-06-04': 'The grass grows.',
-            'YYYY-07-12': 'The winds blow.',
-            'YYYY-08-19': 'The storms rage.',
-            'YYYY-09-20': 'The quiet harvest arrives.',
-            'YYYY-12-07': 'The snow falls.',
-            'YYYY-12-30': 'The children play.',
-            'YYY1-01-01': 'The world is hushed.',
-            'YYY1-01-09': 'The world is white.',
-            'YYY1-03-02': 'The snow melts.',
-            'YYY1-03-14': 'The calf has grown.',
-            'YYY1-03-21': 'Spring is here.'
-        }
-        """
-        # We also have a list of the lines, which allows us to have a range of dates
-        # that the lines get read on.
         self.lines_list = [
                 { 'date': ['YYYY-03-22'], 'line': '''Spring Is Here
   Taro Gomi
@@ -74,6 +52,7 @@ class Spring:
             { 'date': ['YYY1-03-14'], 'line': 'The calf has grown.'},
             { 'date': ['YYY1-03-21'], 'line': 'Spring is here.'}
             ]
+        """
         next_year = str(self.base_year + 1)
         for i, item in enumerate(self.lines_list):
             #new_key = key.replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
