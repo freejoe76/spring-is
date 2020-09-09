@@ -112,7 +112,9 @@ class Spring:
                 if self.next_line['date'][ii] == date_str:
 
                     # If we're on the new year.
-                    if 'Taro Gomi' in self.next_line['line']:
+                    # We're assuming the string "\nvolume" is in the first tweet
+                    # of every year.
+                    if '\nvolume' in self.next_line['line']:
                         return self.the_next_year(self.lines_list[i]['line'])
 
                     # If we've passed on the previous items and we're on
@@ -125,10 +127,6 @@ class Spring:
                     if random.randint(0, l) == 0:
                         return self.next_line['line']
 
-            #if date_str == key:
-            #    if 'Taro Gomi' in self.lines[key]:
-            #        return self.the_next_year(self.lines[key])
-            #    return self.lines[key]
         return False
 
 def setup_auth():
