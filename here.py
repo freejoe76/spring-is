@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Example use:
+# python3 here.py --story spring-is
 from datetime import date
 import os, sys
 import time
