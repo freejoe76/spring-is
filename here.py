@@ -33,6 +33,8 @@ class Spring:
         with open('story/%s.json' % story) as fh:
             self.lines_list = json.load(fh)
 
+        # Loop through the lines. We store the next line we have to publish
+        # in a var called next_line, this var is crucial in the publishing logic.
         next_year = str(self.base_year + 1)
         for i, item in enumerate(self.lines_list):
             for ii, d in enumerate(self.lines_list[i]['date']):
@@ -40,6 +42,9 @@ class Spring:
 
             if i == ( self.count + 1 ):
                 self.next_line = self.lines_list[i]
+                if args.verbose == True:
+                    print("UP NEXT: ", i, self.next_line)
+
 
     def setup(self):
         ''' Initial file creation. Makes sure we don't overwrite existing work.
@@ -155,9 +160,13 @@ def main(args):
     auth = setup_auth()
     api = tweepy.API(auth)
     s = Spring(args.story)
+    s.args = args
 
     if args.initial == True:
         return s.setup()
+
+    if args.verbose == True:
+        print(args)
 
     d_str = date.today().strftime('%Y-%m-%d')
     tweet = s.check_for_tweet(d_str)
