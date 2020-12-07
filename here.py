@@ -55,8 +55,8 @@ class Spring:
         except:
             self.file_put_contents('_volume', '0')
             self.file_put_contents('_year', str(date.today().year))
-            self.file_get_contents('_count', '0')
-            self.file_get_contents('_test', 'test')
+            self.file_put_contents('_count', '0')
+            self.file_put_contents('_test', 'test')
             return True
         return False
 
