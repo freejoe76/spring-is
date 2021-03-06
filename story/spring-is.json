@@ -13,7 +13,7 @@
         { "date": ["YYYY-12-30"], "line": "The children play."},
         { "date": ["YYY1-01-01"], "line": "The world is hushed."},
         { "date": ["YYY1-01-09"], "line": "The world is white."},
-        { "date": ["YYY1-03-02"], "line": "The snow melts."},
+        { "date": ["YYY1-03-02", "YYY1-03-05"], "line": "The snow melts."},
         { "date": ["YYY1-03-14"], "line": "The calf has grown."},
         { "date": ["YYY1-03-21"], "line": "Spring is here."}
 ]
