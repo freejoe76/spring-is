@@ -12,7 +12,6 @@ from collections import OrderedDict
 import random
 import json
 import pdb
-from datetime import datetime
 
 class Spring:
     ''' A class for managing a set of tweets that are supposed to be tweeted on
@@ -22,8 +21,8 @@ class Spring:
     def __init__(self, story):
         ''' Make a new Spring object.
             >>> s = Spring('test')
-            >>> print(s.lines_list[0]['date'])
-            ['2020-03-22']
+            >>> print(s.lines_list[0]['date'][0].split('-')[1:])
+            ['03', '22']
             '''
         try:
             self.volume = self.file_get_contents('_volume')
