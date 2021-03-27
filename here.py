@@ -11,7 +11,8 @@ import tweepy
 from collections import OrderedDict
 import random
 import json
-from pdb import set_trace
+import pdb
+from datetime import datetime
 
 class Spring:
     ''' A class for managing a set of tweets that are supposed to be tweeted on
@@ -116,7 +117,7 @@ class Spring:
         self.volume = str(int(self.volume) + 1)
         self.file_put_contents('_volume', str(self.volume))
         self.file_put_contents('_year', str(date.today().year))
-        self.count = 0
+        self.count = -1
         self.file_put_contents('_count', '0')
         return tweet.replace('volume X', 'volume %s' % str(self.volume))
 
