@@ -11,6 +11,7 @@ import tweepy
 from collections import OrderedDict
 import random
 import json
+from pdb import set_trace
 
 class Spring:
     ''' A class for managing a set of tweets that are supposed to be tweeted on
@@ -36,7 +37,11 @@ class Spring:
         # Loop through the lines. We store the next line we have to publish
         # in a var called next_line, this var is crucial in the publishing logic.
         next_year = str(self.base_year + 1)
+        # Go through the items in the json
         for i, item in enumerate(self.lines_list):
+            # For each item in the json, go through the date(s) in the record
+            # Example:
+            # { "date": ["YYYY-03-28", "YYYY-03-30", "YYYY-03-31"], "line": "Spring is here."},
             for ii, d in enumerate(self.lines_list[i]['date']):
                 self.lines_list[i]['date'][ii] = self.lines_list[i]['date'][ii].replace('YYYY', str(self.base_year)).replace('YYY1', next_year)
 
@@ -44,6 +49,17 @@ class Spring:
                 self.next_line = self.lines_list[i]
                 if args.verbose == True:
                     print("UP NEXT: ", i, self.next_line)
+
+        # If we've made it through all the items in the json and
+        # still haven't set the self.next_line var, that means
+        # we're on the last line and are starting over again.
+        if not hasattr(self, 'next_line'):
+            # If this is what we're doing, the year on the first record will be last year.
+            # That means, if we're going to have a date match that we need to swap out the
+            # previous year for the current year.
+            for ii, d in enumerate(self.lines_list[0]['date']):
+                self.lines_list[0]['date'][ii] = self.lines_list[0]['date'][ii].replace(str(self.base_year), next_year)
+            self.next_line = self.lines_list[0]
 
 
     def setup(self):
@@ -100,6 +116,7 @@ class Spring:
         self.volume = str(int(self.volume) + 1)
         self.file_put_contents('_volume', str(self.volume))
         self.file_put_contents('_year', str(date.today().year))
+        self.count = 0
         self.file_put_contents('_count', '0')
         return tweet.replace('volume X', 'volume %s' % str(self.volume))
 
