@@ -1,7 +1,7 @@
 [
         { "date": ["YYYY-03-26"], "line": "Spring Is Here\nTaro Gomi\nvolume X"},
         { "date": ["YYYY-03-28", "YYYY-03-30", "YYYY-03-31"], "line": "Spring is here."},
-        { "date": ["YYYY-04-08", "YYYY-04-09"], "line": "The snow melts."},
+        { "date": ["YYYY-04-08", "YYYY-04-09", "YYYY-04-11"], "line": "The snow melts."},
         { "date": ["YYYY-04-17", "YYYY-04-19", "YYYY-04-21"], "line": "The earth is fresh."},
         { "date": ["YYYY-05-01", "YYYY-05-02"], "line": "The grass sprouts."},
         { "date": ["YYYY-05-21"], "line": "The flowers bloom."},
