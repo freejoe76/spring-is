@@ -11,7 +11,7 @@
         { "date": ["YYYY-09-19", "YYYY-09-20", "YYYY-09-26"], "line": "The quiet harvest arrives."},
         { "date": ["YYYY-12-07", "YYYY-12-18"], "line": "The snow falls."},
         { "date": ["YYYY-12-30"], "line": "The children play."},
-        { "date": ["YYY1-01-01"], "line": "The world is hushed."},
+        { "date": ["YYY1-01-01", "YYY1-01-02"], "line": "The world is hushed."},
         { "date": ["YYY1-01-09"], "line": "The world is white."},
         { "date": ["YYY1-03-02", "YYY1-03-05"], "line": "The snow melts."},
         { "date": ["YYY1-03-14"], "line": "The calf has grown."},
